@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -10,7 +10,11 @@ import morgan from 'morgan';
 import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
+import postRoutes from './routes/posts.js';
 import { register } from './controllers/auth.js';
+import { createPost } from './controllers/posts.js';
+import { verifyToken } from 'middleware/auth.js';
+
 
 //Configerations
 
@@ -42,10 +46,12 @@ const upload = multer({storage});
 
 //Routes with files
 app.post("/auth/register",upload.single("picture"),verifyToken, register);
+app.post("/posts",verifyToken, upload.single("picture"),createPost);
 
 //Routes
 app.use("/auth",authRoutes);
-app.use("users", userRoutes);
+app.use("/users", userRoutes);
+app.use("/posts", postRoutes);
 
 //MONGOOSE SETUP
 const PORT = process.env.PORT || 6001;

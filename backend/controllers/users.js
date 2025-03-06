@@ -1,5 +1,4 @@
-import { message } from "statuses";
-import User from "../models/User";
+import User from "../models/User.js";
 
 //READ  
 export const getUser = async (req, res) => {
@@ -59,6 +58,7 @@ export const addRemoveFriend = async (req, res) => {
                 return {_id,firstname,lastname,occupation,location,picturePAth};
             }
         );
+        res.status(200).json(formatedFriends);
 
     }
     catch(err){
